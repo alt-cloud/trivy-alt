@@ -8,6 +8,7 @@ const (
 	// ======
 	TypeOSRelease  Type = "os-release"
 	TypeAlpine     Type = "alpine"
+	TypeALT        Type = "alt"
 	TypeAmazon     Type = "amazon"
 	TypeCBLMariner Type = "cbl-mariner"
 	TypeDebian     Type = "debian"
@@ -131,6 +132,7 @@ var (
 	TypeOSes = []Type{
 		TypeOSRelease,
 		TypeAlpine,
+		TypeALT,
 		TypeAmazon,
 		TypeCBLMariner,
 		TypeDebian,

@@ -3,6 +3,7 @@ package os
 import "golang.org/x/xerrors"
 
 const (
+
 	// RedHat is done
 	RedHat = "redhat"
 
@@ -26,6 +27,9 @@ const (
 
 	// Amazon is done
 	Amazon = "amazon"
+
+	//ALT is done
+	ALT = "alt"
 
 	// Oracle is done
 	Oracle = "oracle"
