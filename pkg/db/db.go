@@ -10,11 +10,11 @@ import (
 	"golang.org/x/xerrors"
 	"k8s.io/utils/clock"
 
-	"github.com/aquasecurity/trivy-db/pkg/db"
-	"github.com/aquasecurity/trivy-db/pkg/metadata"
 	"github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/oci"
+	"github.com/ipaqsa/trivy-db/pkg/db"
+	"github.com/ipaqsa/trivy-db/pkg/metadata"
 )
 
 const (

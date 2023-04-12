@@ -2,19 +2,21 @@ package alt
 
 import (
 	"fmt"
-	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	ustrings "github.com/aquasecurity/trivy-db/pkg/utils/strings"
-	redhat "github.com/aquasecurity/trivy-db/pkg/vulnsrc/redhat-oval"
-	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/scanner/utils"
 	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/cheggaaa/pb/v3"
+	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
+	ustrings "github.com/ipaqsa/trivy-db/pkg/utils/strings"
+	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/alt"
+	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/vulnerability"
 	version "github.com/knqyf263/go-rpm-version"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 	"k8s.io/utils/clock"
+	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -39,9 +41,9 @@ func WithClock(clock clock.Clock) option {
 	}
 }
 
-// Scanner implements the ALT scanner with RedHat` vuln source
+// Scanner implements the ALT scanner with ALT` vuln source
 type Scanner struct {
-	vs redhat.VulnSrc
+	vs alt.VulnSrc
 	*options
 }
 
@@ -55,7 +57,7 @@ func NewScanner(opts ...option) *Scanner {
 		opt(o)
 	}
 	return &Scanner{
-		vs:      redhat.NewVulnSrc(),
+		vs:      alt.NewVulnSrc(),
 		options: o,
 	}
 }
@@ -84,31 +86,24 @@ func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Packa
 	log.Logger.Debugf("ALT: the number of packages: %d", len(pkgs))
 
 	var vulns []types.DetectedVulnerability
+	p := pb.New(len(pkgs))
+	p.Start()
 	for _, pkg := range pkgs {
 		detectedVulns, err := s.detect(osVer, pkg)
 		if err != nil {
 			return nil, xerrors.Errorf("ALT vulnerability detection error: %w", err)
 		}
 		vulns = append(vulns, detectedVulns...)
+		p.Increment()
 	}
+	p.Finish()
 	return vulns, nil
 }
 
 func (s *Scanner) detect(osVer string, pkg ftypes.Package) ([]types.DetectedVulnerability, error) {
-	// For Red Hat OVAL v2 containing only binary package names
-	pkgName := addModularNamespace(pkg.Name, pkg.Modularitylabel)
-
-	var contentSets []string
-	var nvr string
-	if pkg.BuildInfo == nil {
-		contentSets = []string{"rhel-9-for-x86_64-baseos-rpms", "rhel-9-for-x86_64-appstream-rpms"}
-	} else {
-		contentSets = pkg.BuildInfo.ContentSets
-		nvr = fmt.Sprintf("%s-%s", pkg.BuildInfo.Nvr, pkg.BuildInfo.Arch)
-	}
-	advisories, err := s.vs.Get(pkgName, contentSets, []string{nvr})
+	advisories, err := s.vs.Get(pkg.Name, toCPE(osVer))
 	if err != nil {
-		return nil, xerrors.Errorf("failed to get Red Hat advisories: %w", err)
+		return nil, xerrors.Errorf("failed to get ALT advisories: %w", err)
 	}
 
 	installed := utils.FormatVersion(pkg)
@@ -116,13 +111,11 @@ func (s *Scanner) detect(osVer string, pkg ftypes.Package) ([]types.DetectedVuln
 
 	uniqVulns := map[string]types.DetectedVulnerability{}
 	for _, adv := range advisories {
-		// if Arches for advisory is empty or pkg.Arch is "noarch", then any Arches are affected
 		if len(adv.Arches) != 0 && pkg.Arch != "noarch" {
 			if !slices.Contains(adv.Arches, pkg.Arch) {
 				continue
 			}
 		}
-
 		vulnID := adv.VulnerabilityID
 		vuln := types.DetectedVulnerability{
 			VulnerabilityID:  vulnID,
@@ -131,35 +124,28 @@ func (s *Scanner) detect(osVer string, pkg ftypes.Package) ([]types.DetectedVuln
 			InstalledVersion: utils.FormatVersion(pkg),
 			Ref:              pkg.Ref,
 			Layer:            pkg.Layer,
-			SeveritySource:   vulnerability.RedHat,
+			SeveritySource:   vulnerability.ALT,
 			Vulnerability: dbTypes.Vulnerability{
 				Severity: adv.Severity.String(),
 			},
 			Custom: adv.Custom,
 		}
 
-		// unpatched vulnerabilities
 		if adv.FixedVersion == "" {
-			// Red Hat may contain several advisories for the same vulnerability (RHSA advisories).
-			// To avoid overwriting the fixed version by mistake, we should skip unpatched vulnerabilities if they were added earlier
 			if _, ok := uniqVulns[vulnID]; !ok {
 				uniqVulns[vulnID] = vuln
 			}
 			continue
 		}
 
-		// patched vulnerabilities
 		fixedVersion := version.NewVersion(adv.FixedVersion)
 		if installedVersion.LessThan(fixedVersion) {
 			vuln.VendorIDs = adv.VendorIDs
 			vuln.FixedVersion = fixedVersion.String()
 
 			if v, ok := uniqVulns[vulnID]; ok {
-				// In case two advisories resolve the same CVE-ID.
-				// e.g. The first fix might be incomplete.
 				v.VendorIDs = ustrings.Unique(append(v.VendorIDs, vuln.VendorIDs...))
 
-				// The newer fixed version should be taken.
 				if version.NewVersion(v.FixedVersion).LessThan(fixedVersion) {
 					v.FixedVersion = vuln.FixedVersion
 				}
@@ -178,16 +164,12 @@ func (s *Scanner) detect(osVer string, pkg ftypes.Package) ([]types.DetectedVuln
 	return vulns, nil
 }
 
-func addModularNamespace(name, label string) string {
-	// e.g. npm, nodejs:12:8030020201124152102:229f0a1c => nodejs:12::npm
-	var count int
-	for i, r := range label {
-		if r == ':' {
-			count++
-		}
-		if count == 2 {
-			return label[:i] + "::" + name
-		}
-	}
-	return name
+func clearString(str string) string {
+	reg, _ := regexp.Compile(`[^0-9 ]+`)
+	return reg.ReplaceAllString(str, "")
+}
+
+func toCPE(platform string) string {
+	p := clearString(platform)
+	return fmt.Sprintf("cpe:/o:alt:starterkit:%s", p)
 }

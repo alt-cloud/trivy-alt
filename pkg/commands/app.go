@@ -15,7 +15,6 @@ import (
 	"golang.org/x/xerrors"
 
 	awsScanner "github.com/aquasecurity/defsec/pkg/scanners/cloud/aws"
-	"github.com/aquasecurity/trivy-db/pkg/metadata"
 	javadb "github.com/aquasecurity/trivy-java-db/pkg/db"
 	awscommands "github.com/aquasecurity/trivy/pkg/cloud/aws/commands"
 	"github.com/aquasecurity/trivy/pkg/commands/artifact"
@@ -28,6 +27,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/plugin"
 	"github.com/aquasecurity/trivy/pkg/policy"
 	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/ipaqsa/trivy-db/pkg/metadata"
 )
 
 // VersionInfo holds the trivy DB version Info
