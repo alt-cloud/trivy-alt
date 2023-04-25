@@ -331,7 +331,7 @@ func purlType(t string) string {
 		return TypeAPK
 	case os.Debian, os.Ubuntu:
 		return packageurl.TypeDebian
-	case os.RedHat, os.CentOS, os.Rocky, os.Alma,
+	case os.RedHat, os.CentOS, os.Rocky, os.Alma, os.ALT,
 		os.Amazon, os.Fedora, os.Oracle, os.OpenSUSE,
 		os.OpenSUSELeap, os.OpenSUSETumbleweed, os.SLES, os.Photon:
 		return packageurl.TypeRPM

@@ -1,7 +1,6 @@
 package alt
 
 import (
-	"fmt"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/scanner/utils"
@@ -16,7 +15,6 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 	"k8s.io/utils/clock"
-	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -63,7 +61,8 @@ func NewScanner(opts ...option) *Scanner {
 }
 
 // IsSupportedVersion checks the OSFamily can be scanned using ALT scanner
-func (s *Scanner) IsSupportedVersion(osFamily, osVer string) bool {
+func (s *Scanner) IsSupportedVersion(osFamily, cpe string) bool {
+	osVer := fromCPE(cpe)
 	if strings.Count(osVer, ".") > 1 {
 		osVer = osVer[:strings.LastIndex(osVer, ".")]
 	}
@@ -77,19 +76,16 @@ func (s *Scanner) IsSupportedVersion(osFamily, osVer string) bool {
 	return s.clock.Now().Before(eol)
 }
 
-func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Package) ([]types.DetectedVulnerability, error) {
+func (s *Scanner) Detect(cpe string, _ *ftypes.Repository, pkgs []ftypes.Package) ([]types.DetectedVulnerability, error) {
 	log.Logger.Info("Detecting ALT vulnerabilities...")
-	if strings.Count(osVer, ".") > 0 {
-		osVer = osVer[:strings.Index(osVer, ".")]
-	}
-	log.Logger.Debugf("ALT: os version: %s", osVer)
+	log.Logger.Debugf("ALT: os version: %s", fromCPE(cpe))
 	log.Logger.Debugf("ALT: the number of packages: %d", len(pkgs))
 
 	var vulns []types.DetectedVulnerability
 	p := pb.New(len(pkgs))
 	p.Start()
 	for _, pkg := range pkgs {
-		detectedVulns, err := s.detect(osVer, pkg)
+		detectedVulns, err := s.detect(cpe, pkg)
 		if err != nil {
 			return nil, xerrors.Errorf("ALT vulnerability detection error: %w", err)
 		}
@@ -100,8 +96,8 @@ func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Packa
 	return vulns, nil
 }
 
-func (s *Scanner) detect(osVer string, pkg ftypes.Package) ([]types.DetectedVulnerability, error) {
-	advisories, err := s.vs.Get(pkg.Name, toCPE(osVer))
+func (s *Scanner) detect(cpe string, pkg ftypes.Package) ([]types.DetectedVulnerability, error) {
+	advisories, err := s.vs.Get(pkg.Name, correctCPE(cpe))
 	if err != nil {
 		return nil, xerrors.Errorf("failed to get ALT advisories: %w", err)
 	}
@@ -164,12 +160,13 @@ func (s *Scanner) detect(osVer string, pkg ftypes.Package) ([]types.DetectedVuln
 	return vulns, nil
 }
 
-func clearString(str string) string {
-	reg, _ := regexp.Compile(`[^0-9 ]+`)
-	return reg.ReplaceAllString(str, "")
+func fromCPE(cpe string) string {
+	splits := strings.Split(cpe, ":")
+	return splits[len(splits)-1]
 }
 
-func toCPE(platform string) string {
-	p := clearString(platform)
-	return fmt.Sprintf("cpe:/o:alt:starterkit:%s", p)
+func correctCPE(cpe string) string {
+	splits := strings.Split(cpe, ":")
+	splits[len(splits)-1] = splits[len(splits)-1][1:]
+	return strings.Join(splits, ":")
 }

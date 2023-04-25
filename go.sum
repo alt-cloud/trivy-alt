@@ -1151,8 +1151,8 @@ github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANyt
 github.com/inconshreveable/mousetrap v1.0.1/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
-github.com/ipaqsa/trivy-db v0.0.2-alt h1:tcC4L1D1/fyrdBvjR4APA9o0iPvuj/3dc/YelwE+Bt4=
-github.com/ipaqsa/trivy-db v0.0.2-alt/go.mod h1:SaCdRwFi0hEx3dcnULleGsJLxV8HzQO3k0Utrp5uyP4=
+github.com/ipaqsa/trivy-db v0.0.3-alt h1:azPEeIIXcfPJfzwsbClHP/ool0uKjsIGw1JrFTdamRE=
+github.com/ipaqsa/trivy-db v0.0.3-alt/go.mod h1:SaCdRwFi0hEx3dcnULleGsJLxV8HzQO3k0Utrp5uyP4=
 github.com/j-keck/arping v0.0.0-20160618110441-2cf9dc699c56/go.mod h1:ymszkNOg6tORTn+6F6j+Jc8TOr5osrynvN6ivFWZ2GA=
 github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 h1:BQSFePA1RWJOlocH6Fxy8MmwDt+yVQYULKfN0RoTN8A=
 github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99/go.mod h1:1lJo3i6rXxKeerYnT8Nvf0QmHCRC1n8sfWVwXF2Frvo=
