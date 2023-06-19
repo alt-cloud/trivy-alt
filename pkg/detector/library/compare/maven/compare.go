@@ -5,7 +5,7 @@ import (
 
 	version "github.com/masahiro331/go-mvn-version"
 
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy/pkg/detector/library/compare"
 )
 

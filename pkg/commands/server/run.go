@@ -11,7 +11,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/module"
 	rpcServer "github.com/aquasecurity/trivy/pkg/rpc/server"
 	"github.com/aquasecurity/trivy/pkg/utils/fsutils"
-	"github.com/ipaqsa/trivy-db/pkg/db"
+	"github.com/alt-cloud/trivy-db/pkg/db"
 )
 
 // Run runs the scan

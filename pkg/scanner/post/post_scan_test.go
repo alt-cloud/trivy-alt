@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
 
 	"github.com/stretchr/testify/require"
 

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy/pkg/report/table"
 
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"

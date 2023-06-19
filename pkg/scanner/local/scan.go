@@ -25,7 +25,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/scanner/post"
 	"github.com/aquasecurity/trivy/pkg/types"
 	"github.com/aquasecurity/trivy/pkg/vulnerability"
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
 )
 
 var (

@@ -29,7 +29,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/scanner"
 	"github.com/aquasecurity/trivy/pkg/types"
 	"github.com/aquasecurity/trivy/pkg/utils/fsutils"
-	"github.com/ipaqsa/trivy-db/pkg/db"
+	"github.com/alt-cloud/trivy-db/pkg/db"
 )
 
 // TargetKind represents what kind of artifact Trivy scans

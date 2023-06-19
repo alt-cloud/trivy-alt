@@ -6,9 +6,9 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/ipaqsa/trivy-db/pkg/db"
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
-	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/vulnerability"
+	"github.com/alt-cloud/trivy-db/pkg/db"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
+	"github.com/alt-cloud/trivy-db/pkg/vulnsrc/vulnerability"
 	"github.com/aquasecurity/trivy/pkg/detector/library/compare"
 	"github.com/aquasecurity/trivy/pkg/detector/library/compare/maven"
 	"github.com/aquasecurity/trivy/pkg/detector/library/compare/npm"

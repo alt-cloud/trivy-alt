@@ -27,7 +27,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/plugin"
 	"github.com/aquasecurity/trivy/pkg/policy"
 	"github.com/aquasecurity/trivy/pkg/types"
-	"github.com/ipaqsa/trivy-db/pkg/metadata"
+	"github.com/alt-cloud/trivy-db/pkg/metadata"
 )
 
 // VersionInfo holds the trivy DB version Info

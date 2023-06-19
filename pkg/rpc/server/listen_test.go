@@ -15,8 +15,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/xerrors"
 
-	"github.com/ipaqsa/trivy-db/pkg/db"
-	"github.com/ipaqsa/trivy-db/pkg/metadata"
+	"github.com/alt-cloud/trivy-db/pkg/db"
+	"github.com/alt-cloud/trivy-db/pkg/metadata"
 	dbFile "github.com/aquasecurity/trivy/pkg/db"
 	"github.com/aquasecurity/trivy/pkg/fanal/cache"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"

@@ -13,9 +13,9 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/xerrors"
 
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
-	"github.com/ipaqsa/trivy-db/pkg/utils"
-	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/vulnerability"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
+	"github.com/alt-cloud/trivy-db/pkg/utils"
+	"github.com/alt-cloud/trivy-db/pkg/vulnsrc/vulnerability"
 	"github.com/aquasecurity/trivy/pkg/fanal/cache"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/scanner"

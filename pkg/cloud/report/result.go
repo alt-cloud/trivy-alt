@@ -8,7 +8,7 @@ import (
 
 	renderer "github.com/aquasecurity/trivy/pkg/report/table"
 
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy/pkg/types"
 )
 

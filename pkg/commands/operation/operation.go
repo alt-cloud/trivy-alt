@@ -19,7 +19,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/policy"
 	"github.com/aquasecurity/trivy/pkg/utils/fsutils"
-	"github.com/ipaqsa/trivy-db/pkg/metadata"
+	"github.com/alt-cloud/trivy-db/pkg/metadata"
 )
 
 // SuperSet binds cache dependencies

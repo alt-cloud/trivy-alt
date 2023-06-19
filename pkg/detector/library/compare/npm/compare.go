@@ -4,7 +4,7 @@ import (
 	"golang.org/x/xerrors"
 
 	npm "github.com/aquasecurity/go-npm-version/pkg"
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy/pkg/detector/library/compare"
 )
 

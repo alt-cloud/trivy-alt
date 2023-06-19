@@ -6,7 +6,7 @@ import (
 	version "github.com/knqyf263/go-rpm-version"
 	"golang.org/x/xerrors"
 
-	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/mariner"
+	"github.com/alt-cloud/trivy-db/pkg/vulnsrc/mariner"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/scanner/utils"

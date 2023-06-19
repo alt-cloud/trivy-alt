@@ -7,7 +7,7 @@ import (
 	"golang.org/x/xerrors"
 	"k8s.io/utils/clock"
 
-	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/ubuntu"
+	"github.com/alt-cloud/trivy-db/pkg/vulnsrc/ubuntu"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/scanner/utils"

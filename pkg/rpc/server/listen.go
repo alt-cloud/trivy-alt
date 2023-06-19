@@ -11,8 +11,8 @@ import (
 	"github.com/twitchtv/twirp"
 	"golang.org/x/xerrors"
 
-	"github.com/ipaqsa/trivy-db/pkg/db"
-	"github.com/ipaqsa/trivy-db/pkg/metadata"
+	"github.com/alt-cloud/trivy-db/pkg/db"
+	"github.com/alt-cloud/trivy-db/pkg/metadata"
 	dbFile "github.com/aquasecurity/trivy/pkg/db"
 	dbc "github.com/aquasecurity/trivy/pkg/db"
 	"github.com/aquasecurity/trivy/pkg/fanal/cache"

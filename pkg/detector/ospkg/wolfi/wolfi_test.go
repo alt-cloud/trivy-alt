@@ -7,9 +7,9 @@ import (
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg/wolfi"
 	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/os"
 
-	"github.com/ipaqsa/trivy-db/pkg/db"
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
-	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/vulnerability"
+	"github.com/alt-cloud/trivy-db/pkg/db"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
+	"github.com/alt-cloud/trivy-db/pkg/vulnsrc/vulnerability"
 	"github.com/aquasecurity/trivy/pkg/dbtest"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/types"

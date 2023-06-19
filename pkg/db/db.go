@@ -13,8 +13,8 @@ import (
 	"github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/oci"
-	"github.com/ipaqsa/trivy-db/pkg/db"
-	"github.com/ipaqsa/trivy-db/pkg/metadata"
+	"github.com/alt-cloud/trivy-db/pkg/db"
+	"github.com/alt-cloud/trivy-db/pkg/metadata"
 )
 
 const (

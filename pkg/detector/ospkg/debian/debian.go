@@ -8,9 +8,9 @@ import (
 	"golang.org/x/xerrors"
 	"k8s.io/utils/clock"
 
-	dbTypes "github.com/ipaqsa/trivy-db/pkg/types"
-	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/debian"
-	"github.com/ipaqsa/trivy-db/pkg/vulnsrc/vulnerability"
+	dbTypes "github.com/alt-cloud/trivy-db/pkg/types"
+	"github.com/alt-cloud/trivy-db/pkg/vulnsrc/debian"
+	"github.com/alt-cloud/trivy-db/pkg/vulnsrc/vulnerability"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/scanner/utils"
