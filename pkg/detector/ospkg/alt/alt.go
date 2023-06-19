@@ -98,7 +98,7 @@ func (s *Scanner) Detect(cpe string, _ *ftypes.Repository, pkgs []ftypes.Package
 }
 
 func (s *Scanner) detect(cpe string, pkg ftypes.Package) ([]types.DetectedVulnerability, error) {
-	advisories, err := s.vs.Get(pkg.Name, correctCPE(cpe))
+	advisories, err := s.vs.Get(pkg.Name, cpe)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to get ALT advisories: %w", err)
 	}
@@ -162,12 +162,14 @@ func (s *Scanner) detect(cpe string, pkg ftypes.Package) ([]types.DetectedVulner
 }
 
 func fromCPE(cpe string) string {
-	splits := strings.Split(cpe, ":")
-	return splits[len(splits)-1]
-}
-
-func correctCPE(cpe string) string {
-	splits := strings.Split(cpe, ":")
-	splits[len(splits)-1] = splits[len(splits)-1][1:]
-	return strings.Join(splits, ":")
+	if strings.Contains(cpe, "sp") && strings.Contains(cpe, "10") {
+		return "c10f1"
+	}
+	if !strings.Contains(cpe, "sp") && strings.Contains(cpe, "10") {
+		return "p10"
+	}
+	if !strings.Contains(cpe, "sp") && strings.Contains(cpe, "9") {
+		return "p9"
+	}
+	return "undefined"
 }
