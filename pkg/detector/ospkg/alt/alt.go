@@ -22,8 +22,9 @@ import (
 
 var (
 	eolDates = map[string]time.Time{
-		"p9":  time.Date(2023, 12, 31, 23, 59, 59, 0, time.UTC),
-		"p10": time.Date(2024, 6, 30, 23, 59, 59, 0, time.UTC),
+		"p9":    time.Date(2023, 12, 31, 23, 59, 59, 0, time.UTC),
+		"p10":   time.Date(2024, 6, 30, 23, 59, 59, 0, time.UTC),
+		"c10f1": time.Date(2025, 6, 30, 23, 59, 59, 0, time.UTC),
 	}
 )
 
